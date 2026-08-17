@@ -1,0 +1,29 @@
+import { useStore } from '../../store/StoreContext.jsx';
+import { CountdownBar } from '../CountdownBar.jsx';
+import { TopNav } from './TopNav.jsx';
+import { Hero } from './Hero.jsx';
+import { ProductGrid } from './ProductGrid.jsx';
+import { Footer } from './Footer.jsx';
+import { CartDrawer } from './CartDrawer.jsx';
+import { QuickView } from './QuickView.jsx';
+import { DesktopToast } from './DesktopToast.jsx';
+import './desktop.css';
+
+export function DesktopApp() {
+  const { state } = useStore();
+
+  return (
+    <div className="d-shell">
+      <TopNav />
+      <CountdownBar theme={state.theme} now={state.now} cdDefault={state.cdDefault} variant="desktop" />
+      <div className="d-page">
+        <Hero />
+        <ProductGrid />
+        <Footer />
+      </div>
+      <CartDrawer />
+      <QuickView />
+      <DesktopToast />
+    </div>
+  );
+}

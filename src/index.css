@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --ink: #2B2118;
+  --ink-rgb: 43, 33, 24;
+  --cream: #FAF5EC;
+  --accent: #C4714C;
+  --accent-dark: #A45B3A;
+  --accent-soft: #E8B79A;
+  --page-bg: #EFE7DA;
+  --surface: #F2E9DA;
+  --surface-soft: #F6F0E5;
+  --surface-strong: #E8DAC4;
+  --surface-strong-2: #E4D8C4;
+  --placeholder-a: #EADFCC;
+  --placeholder-b: #E2D5BE;
+  --white: #FFFFFF;
+  --whatsapp: #1FA855;
+  --whatsapp-dark: #1B9349;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--page-bg);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  color: var(--ink);
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-dark); }
+
+button, input {
+  font-family: inherit;
+}
+
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
+
+.placeholder-art {
+  position: relative;
+  background: repeating-linear-gradient(135deg, var(--placeholder-a) 0 10px, var(--placeholder-b) 10px 20px);
+}
+.placeholder-label {
+  position: absolute;
+  font: 500 9px/1 ui-monospace, Menlo, monospace;
+  letter-spacing: .07em;
+  color: rgba(var(--ink-rgb), .4);
+}
+
+@keyframes sk-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes sk-card { from { opacity: 0; transform: translateY(20px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes sk-toast { from { opacity: 0; transform: translateY(26px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes sk-pop { 0% { transform: scale(1); } 45% { transform: scale(1.28); } 100% { transform: scale(1); } }
+@keyframes sk-sheen { from { transform: translateX(-120%); } to { transform: translateX(220%); } }
+@keyframes sk-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sk-slide { from { transform: translateX(100%); } to { transform: none; } }
+@keyframes sk-modal { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes sk-shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(3px); } }
