@@ -29,7 +29,7 @@
 .m-icon-btn:hover { background: var(--surface-strong); }
 .m-icon-btn:active { transform: scale(.9); }
 .m-brand { display: flex; align-items: center; gap: 7px; }
-.m-brand-logo { width: 34px; height: 34px; background-size: contain; background-position: center; background-repeat: no-repeat; mix-blend-mode: multiply; }
+.m-brand-logo { width: 34px; height: 34px; background-size: contain; background-position: center; background-repeat: no-repeat; }
 .m-brand-name { font-family: 'Audiowide', system-ui, sans-serif; font-size: 19px; line-height: 1; letter-spacing: .05em; color: var(--ink); }
 .m-header-title { font: 700 19px/1 'Plus Jakarta Sans', sans-serif; letter-spacing: -.01em; color: var(--ink); }
 .m-bag-btn {

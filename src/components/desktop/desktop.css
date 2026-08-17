@@ -6,7 +6,7 @@
   border-bottom: 1px solid rgba(43,33,24,.08);
 }
 .d-brand { display: flex; align-items: center; gap: 9px; flex: none; }
-.d-brand-logo { width: 36px; height: 36px; flex: none; background-size: contain; background-position: center; background-repeat: no-repeat; mix-blend-mode: multiply; }
+.d-brand-logo { width: 36px; height: 36px; flex: none; background-size: contain; background-position: center; background-repeat: no-repeat; }
 .d-brand-name { font-family: 'Audiowide', system-ui, sans-serif; font-size: 21px; line-height: 1; letter-spacing: .05em; color: var(--ink); }
 
 .d-nav-links { display: flex; align-items: center; gap: 26px; }

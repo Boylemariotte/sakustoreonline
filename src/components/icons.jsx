@@ -26,7 +26,7 @@ export function IconBag(props) {
 
 export function IconHeart({ filled, ...props }) {
   return (
-    <svg viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <svg width="17" height="17" viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="M12 20.4C12 20.4 4 15.6 4 10.5 4 8 6 6 8.5 6 10.2 6 11.5 7 12 8.1 12.5 7 13.8 6 15.5 6 18 6 20 8 20 10.5 20 15.6 12 20.4 12 20.4Z" />
     </svg>
   );
