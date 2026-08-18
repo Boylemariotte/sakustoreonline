@@ -35,10 +35,6 @@
 }
 .d-cart-btn:hover { transform: translateY(-1px); }
 
-.cd-bar--desktop { justify-content: center; gap: 16px; padding: 11px 40px; }
-.cd-bar--desktop .cd-text { max-width: none; letter-spacing: .02em; font-weight: 600; font-size: 12.5px; }
-.cd-bar--desktop .cd-unit { min-width: 44px; padding: 6px 8px; }
-
 .d-page { max-width: 1400px; margin: 0 auto; }
 
 .d-hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 30px; align-items: stretch; padding: 30px 40px 0; }

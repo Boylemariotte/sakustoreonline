@@ -15,6 +15,20 @@ export function countdownParts(untilMs, nowMs) {
   return { d: String(d), h: pad(h), m: pad(m), s: pad(s), over: untilMs - nowMs <= 0 };
 }
 
+// Short "2d 4h" / "4h 12m" / "12m 30s" style label for tight spaces (product cards).
+export function compactCountdown(untilMs, nowMs) {
+  const ms = untilMs - nowMs;
+  if (ms <= 0) return null;
+  const totalMin = Math.floor(ms / 60000);
+  const d = Math.floor(totalMin / 1440);
+  const h = Math.floor((totalMin % 1440) / 60);
+  const m = totalMin % 60;
+  const s = Math.floor((ms % 60000) / 1000);
+  if (d > 0) return `${d}d ${h}h`;
+  if (h > 0) return `${h}h ${m}m`;
+  return `${m}m ${s}s`;
+}
+
 const DIACRITICS_RE = /[\u0300-\u036f]/g;
 
 export function slugify(name) {

@@ -1,7 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { ALL_PRODUCTS, COLORS, findProduct, sizesFor } from '../data/products.js';
+import { ALL_PRODUCTS, COLORS, findProduct, isExclusive, sizesFor } from '../data/products.js';
 import { cop, shippingFor, slugify } from '../utils/format.js';
 import { DEFAULT_THEME, rawTheme, readTheme } from './theme.js';
+import { exclusiveUntilMs, rawExclusives, readExclusiveOverrides } from './exclusives.js';
 
 const StoreCtx = createContext(null);
 
@@ -42,8 +43,8 @@ function initialState() {
     saved: loadJSON(SAVED_KEY, {}),
     bag: loadJSON(BAG_KEY, []),
     theme: readTheme(),
+    exclusiveOverrides: readExclusiveOverrides(),
     now: Date.now(),
-    cdDefault: Date.now() + 6 * 86400000 + 7 * 3600000,
   };
 }
 
@@ -52,6 +53,7 @@ export function StoreProvider({ children }) {
   const toastTimer = useRef(null);
   const dToastTimer = useRef(null);
   const lastRawTheme = useRef(null);
+  const lastRawExclusives = useRef(null);
 
   const patch = useCallback((partial) => {
     setState((s) => ({ ...s, ...(typeof partial === 'function' ? partial(s) : partial) }));
@@ -94,6 +96,30 @@ export function StoreProvider({ children }) {
     };
   }, [patch]);
 
+  // exclusive-countdown overrides sync (same cross-tab pattern as theme, for a
+  // future admin panel writing localStorage.saku.exclusives per product id)
+  useEffect(() => {
+    lastRawExclusives.current = rawExclusives();
+    const applyExclusives = () => patch({ exclusiveOverrides: readExclusiveOverrides() });
+    const onStorage = (e) => {
+      if (e && e.key && e.key !== 'saku.exclusives') return;
+      lastRawExclusives.current = rawExclusives();
+      applyExclusives();
+    };
+    window.addEventListener('storage', onStorage);
+    const poll = setInterval(() => {
+      const raw = rawExclusives();
+      if (raw !== lastRawExclusives.current) {
+        lastRawExclusives.current = raw;
+        applyExclusives();
+      }
+    }, 600);
+    return () => {
+      window.removeEventListener('storage', onStorage);
+      clearInterval(poll);
+    };
+  }, [patch]);
+
   useEffect(() => () => {
     clearTimeout(toastTimer.current);
     clearTimeout(dToastTimer.current);
@@ -126,10 +152,7 @@ export function StoreProvider({ children }) {
     setQuery: (q) => patch({ q }),
 
     // catalog
-    selectTab: (t) => {
-      if (t === 'Rebajas') { showToast('Rebajas llega en la siguiente iteración.'); return; }
-      patch({ tab: t, toast: null });
-    },
+    selectTab: (t) => patch({ tab: t, toast: null }),
     openProduct: (id) => patch({ view: 'product', productId: id, size: null, color: 0, photo: 0, toast: null }),
     setPhoto: (i) => patch({ photo: i }),
     setColor: (i) => patch({ color: i }),
@@ -164,7 +187,7 @@ export function StoreProvider({ children }) {
 
     // desktop
     selectDTab: (t) => {
-      if (t === 'Rebajas' || t === 'Nuevo') { showDToast(t + ' llega en la siguiente iteración.'); return; }
+      if (t === 'Nuevo') { showDToast(t + ' llega en la siguiente iteración.'); return; }
       patch({ dTab: t });
     },
     openQuickView: (id) => patch({ dQuick: id, dSize: null, dColor: 0, dToast: null }),
@@ -231,4 +254,4 @@ function waLink(bag) {
   return 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
 }
 
-export { ALL_PRODUCTS, findProduct, sizesFor, DEFAULT_THEME };
+export { ALL_PRODUCTS, findProduct, sizesFor, isExclusive, DEFAULT_THEME, exclusiveUntilMs };

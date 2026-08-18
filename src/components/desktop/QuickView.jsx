@@ -1,6 +1,7 @@
-import { useStore, findProduct, sizesFor } from '../../store/StoreContext.jsx';
+import { useStore, findProduct, sizesFor, exclusiveUntilMs, isExclusive } from '../../store/StoreContext.jsx';
 import { COLORS } from '../../data/products.js';
 import { cop } from '../../utils/format.js';
+import { ExclusiveBanner } from '../ExclusiveBanner.jsx';
 
 export function QuickView() {
   const { state, actions } = useStore();
@@ -10,6 +11,7 @@ export function QuickView() {
   const sizes = sizesFor(dq);
   const saved = !!state.saved[dq.id];
   const ctaLabel = state.dSize ? `Añadir a la bolsa · ${cop(dq.price)}` : 'Elige una talla';
+  const exclusiveUntil = isExclusive(dq) ? exclusiveUntilMs(dq, state.exclusiveOverrides) : null;
 
   return (
     <div className="d-overlay d-overlay--center" role="dialog" aria-modal="true">
@@ -30,6 +32,7 @@ export function QuickView() {
             </div>
             <button type="button" className="d-round-btn" onClick={actions.closeQuickView} aria-label="Cerrar">×</button>
           </div>
+          {exclusiveUntil && <ExclusiveBanner untilMs={exclusiveUntil} now={state.now} />}
           <div className="m-product-desc">{dq.desc}</div>
 
           <div className="m-option-group">

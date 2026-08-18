@@ -4,10 +4,6 @@ export const DEFAULT_THEME = {
   ink: '#2B2118',
   cream: '#FAF5EC',
   logo: '/saku-logo.png',
-  cdOn: true,
-  cdText: 'Últimas unidades de esta colección',
-  cdUntil: null,
-  cdDone: 'Colección renovada. Mercancía nueva en tienda.',
 };
 
 const THEME_KEY = 'saku.theme';

@@ -51,6 +51,30 @@ button, input {
   color: rgba(var(--ink-rgb), .4);
 }
 
+/* Exclusive-product countdown (product detail banner + shared unit chips) */
+.exclusive-banner {
+  background: var(--ink); color: var(--cream); border-radius: 20px; padding: 14px 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  animation: sk-up .4s cubic-bezier(.22,.7,.3,1) both;
+}
+.exclusive-banner-head { display: flex; align-items: center; gap: 8px; }
+.exclusive-banner-star { color: var(--accent-soft); font-size: 14px; line-height: 1; }
+.exclusive-banner-text { font: 600 12.5px/1.35 'Plus Jakarta Sans', sans-serif; max-width: 220px; }
+.cd-units { display: flex; gap: 6px; }
+.cd-unit { min-width: 38px; padding: 6px 7px; border-radius: 9px; background: rgba(255,255,255,.13); display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.cd-unit-num { font: 700 14px/1 'Plus Jakarta Sans', sans-serif; font-variant-numeric: tabular-nums; color: var(--cream); }
+.cd-unit-label { font: 600 7.5px/1 'Plus Jakarta Sans', sans-serif; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+
+/* Exclusive tag + mini countdown pill shown on product cards */
+.product-tag.product-tag--exclusive {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  padding: 6px 10px; background: var(--ink); color: var(--accent-soft);
+  border-radius: 12px; max-width: calc(100% - 20px);
+}
+.product-tag-line1 { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.product-tag-star { color: var(--accent-soft); }
+.product-tag-time { color: var(--cream); font-variant-numeric: tabular-nums; font-size: 9px; opacity: .8; white-space: nowrap; }
+
 @keyframes sk-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes sk-card { from { opacity: 0; transform: translateY(20px) scale(.97); } to { opacity: 1; transform: none; } }
 @keyframes sk-toast { from { opacity: 0; transform: translateY(26px) scale(.96); } to { opacity: 1; transform: none; } }

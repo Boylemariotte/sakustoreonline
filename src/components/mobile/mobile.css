@@ -39,15 +39,6 @@
 }
 .m-bag-btn:active { transform: scale(.94); }
 
-/* Countdown bar (shared with desktop, base rules here) */
-.cd-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.cd-bar--mobile { padding: 10px 18px 12px; }
-.cd-text { font: 600 11px/1.35 'Plus Jakarta Sans', sans-serif; max-width: 150px; }
-.cd-units { display: flex; gap: 5px; }
-.cd-unit { min-width: 34px; padding: 5px 6px; border-radius: 9px; background: rgba(255,255,255,.13); display: flex; flex-direction: column; align-items: center; gap: 2px; }
-.cd-unit-num { font: 700 13px/1 'Plus Jakarta Sans', sans-serif; font-variant-numeric: tabular-nums; }
-.cd-unit-label { font: 600 7.5px/1 'Plus Jakarta Sans', sans-serif; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.55); }
-
 /* Search */
 .m-search { flex: none; padding: 0 18px 12px; display: flex; align-items: center; gap: 9px; animation: sk-up .26s cubic-bezier(.22,.7,.3,1) both; }
 .m-search-field { flex: 1; height: 44px; border-radius: 99px; background: var(--surface); display: flex; align-items: center; gap: 9px; padding: 0 15px; }

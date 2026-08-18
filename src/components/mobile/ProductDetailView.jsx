@@ -1,7 +1,8 @@
-import { useStore, findProduct, sizesFor, ALL_PRODUCTS } from '../../store/StoreContext.jsx';
+import { useStore, findProduct, sizesFor, ALL_PRODUCTS, exclusiveUntilMs, isExclusive } from '../../store/StoreContext.jsx';
 import { COLORS } from '../../data/products.js';
 import { cop } from '../../utils/format.js';
 import { IconHeart } from '../icons.jsx';
+import { ExclusiveBanner } from '../ExclusiveBanner.jsx';
 
 export function ProductDetailView() {
   const { state, actions } = useStore();
@@ -9,6 +10,7 @@ export function ProductDetailView() {
   const sizes = sizesFor(cur);
   const saved = !!state.saved[cur.id];
   const related = ALL_PRODUCTS.filter((p) => p.id !== cur.id && p.group === cur.group).slice(0, 4);
+  const exclusiveUntil = isExclusive(cur) ? exclusiveUntilMs(cur, state.exclusiveOverrides) : null;
 
   return (
     <div className="m-product">
@@ -37,6 +39,7 @@ export function ProductDetailView() {
       </div>
 
       <div className="m-product-body">
+        {exclusiveUntil && <ExclusiveBanner untilMs={exclusiveUntil} now={state.now} />}
         <div className="m-product-head">
           <div className="m-eyebrow">{cur.cat}</div>
           <div className="m-product-name">{cur.name}</div>

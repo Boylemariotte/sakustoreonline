@@ -1,5 +1,4 @@
 import { useStore } from '../../store/StoreContext.jsx';
-import { CountdownBar } from '../CountdownBar.jsx';
 import { Header } from './Header.jsx';
 import { SearchBar } from './SearchBar.jsx';
 import { HomeView } from './HomeView.jsx';
@@ -17,7 +16,6 @@ export function MobileApp() {
   return (
     <div className="m-shell">
       <Header />
-      <CountdownBar theme={state.theme} now={state.now} cdDefault={state.cdDefault} variant="mobile" />
       <SearchBar />
 
       <div className="m-content">

@@ -1,7 +1,7 @@
 import { useStore } from '../../store/StoreContext.jsx';
 import { GROUPS } from '../../data/products.js';
 
-const NAV_ITEMS = [...GROUPS, 'Rebajas', 'Nuevo'];
+const NAV_ITEMS = [...GROUPS, 'Exclusivos', 'Nuevo'];
 
 export function TopNav() {
   const { state, actions, derived } = useStore();

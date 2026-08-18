@@ -3,7 +3,7 @@ import { useStore, ALL_PRODUCTS } from '../../store/StoreContext.jsx';
 import { byGroup } from '../../data/products.js';
 import { ProductCard } from '../ProductCard.jsx';
 
-const TABS = ['Mujer', 'Hombre', 'Niños', 'Rebajas'];
+const TABS = ['Mujer', 'Hombre', 'Niños', 'Exclusivos'];
 
 export function HomeView() {
   const { state, actions } = useStore();
@@ -22,6 +22,7 @@ export function HomeView() {
     ? 'Resultados'
     : state.tab === 'Niños' ? 'Para los peques'
     : state.tab === 'Hombre' ? 'Novedades para él'
+    : state.tab === 'Exclusivos' ? 'Piezas exclusivas'
     : 'Novedades para ella';
   const countLabel = list.length + (list.length === 1 ? ' prenda' : ' prendas');
   const noResults = q && list.length === 0;

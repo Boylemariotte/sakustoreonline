@@ -2,7 +2,7 @@ import { useStore } from '../../store/StoreContext.jsx';
 import { byGroup } from '../../data/products.js';
 import { ProductCard } from '../ProductCard.jsx';
 
-const TITLES = { Hombre: 'Novedades para él', 'Niños': 'Para los peques', Mujer: 'Novedades para ella' };
+const TITLES = { Hombre: 'Novedades para él', 'Niños': 'Para los peques', Mujer: 'Novedades para ella', Exclusivos: 'Piezas exclusivas' };
 
 export function ProductGrid() {
   const { state, actions } = useStore();

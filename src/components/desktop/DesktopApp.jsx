@@ -1,5 +1,3 @@
-import { useStore } from '../../store/StoreContext.jsx';
-import { CountdownBar } from '../CountdownBar.jsx';
 import { TopNav } from './TopNav.jsx';
 import { Hero } from './Hero.jsx';
 import { ProductGrid } from './ProductGrid.jsx';
@@ -10,12 +8,9 @@ import { DesktopToast } from './DesktopToast.jsx';
 import './desktop.css';
 
 export function DesktopApp() {
-  const { state } = useStore();
-
   return (
     <div className="d-shell">
       <TopNav />
-      <CountdownBar theme={state.theme} now={state.now} cdDefault={state.cdDefault} variant="desktop" />
       <div className="d-page">
         <Hero />
         <ProductGrid />

@@ -23,9 +23,27 @@ export const CAT = {
     { id: 'k5', name: 'Body de manga larga', price: 9.9, cat: 'Bebé · Bodies', fabric: 'Punto de algodón suave.', desc: 'Broches en el hombro y en la entrepierna. Talla del 1 al 24 meses.' },
     { id: 'k6', name: 'Peto vaquero', price: 29.9, cat: 'Niños · Petos', fabric: 'Denim ligero de 10 oz.', desc: 'Tirantes regulables y bolsillo canguro que siempre acaba con piedras.' },
   ],
+  Exclusivos: [
+    {
+      id: 'x1', name: 'Abrigo largo de lana', price: 129.0, cat: 'Exclusivo · Abrigos', tag: 'Exclusivo',
+      fabric: 'Lana virgen de 600 g, forro interior de viscosa.', desc: 'Edición limitada de 40 unidades. Corte oversize, solapa ancha y cinturón a juego.',
+      exclusiveUntil: '2026-08-19T23:59:00',
+    },
+    {
+      id: 'x2', name: 'Chaqueta de cuero edición limitada', price: 189.0, was: 229.0, cat: 'Exclusivo · Abrigos', tag: 'Exclusivo',
+      fabric: 'Cuero de cordero curtido al vegetal.', desc: 'Numerada a mano, forro de raso y cierres metálicos macizos. Quedan pocas unidades.',
+      exclusiveUntil: '2026-08-21T18:00:00',
+    },
+    {
+      id: 'x3', name: 'Vestido de gala bordado', price: 159.0, cat: 'Exclusivo · Vestidos', tag: 'Exclusivo',
+      fabric: 'Seda con bordado floral hecho a mano.', desc: 'Pieza de temporada, bordado íntegramente a mano. No vuelve a producirse.',
+      exclusiveUntil: '2026-08-18T21:00:00',
+    },
+  ],
 };
 
 export const GROUPS = ['Mujer', 'Hombre', 'Niños'];
+export const CAT_KEYS = Object.keys(CAT);
 
 export const COLORS = [
   { name: 'Crema', hex: '#EFE4D2' },
@@ -37,7 +55,7 @@ export const COLORS = [
 export const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
 export const KID_SIZES = ['2A', '4A', '6A', '8A', '10A'];
 
-export const ALL_PRODUCTS = GROUPS.reduce(
+export const ALL_PRODUCTS = CAT_KEYS.reduce(
   (acc, g) => acc.concat(CAT[g].map((p) => Object.assign({ group: g }, p))),
   []
 );
@@ -52,4 +70,8 @@ export function findProduct(id) {
 
 export function sizesFor(product) {
   return product && product.group === 'Niños' ? KID_SIZES : SIZES;
+}
+
+export function isExclusive(product) {
+  return !!(product && product.exclusiveUntil);
 }
