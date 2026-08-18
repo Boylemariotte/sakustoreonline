@@ -11,12 +11,19 @@ export function ProductDetailView() {
   const saved = !!state.saved[cur.id];
   const related = ALL_PRODUCTS.filter((p) => p.id !== cur.id && p.group === cur.group).slice(0, 4);
   const exclusiveUntil = isExclusive(cur) ? exclusiveUntilMs(cur, state.exclusiveOverrides) : null;
+  const photos = cur.images || [];
 
   return (
     <div className="m-product">
-      <div className="m-gallery placeholder-art">
-        <div className="m-gallery-sheen" />
-        <div className="placeholder-label" style={{ top: 14, left: 14 }}>[ foto de producto {state.photo + 1}/4 ]</div>
+      <div className={`m-gallery ${photos.length ? '' : 'placeholder-art'}`}>
+        {photos.length > 0 ? (
+          <img className="thumb-img" src={photos[state.photo] || photos[0]} alt={cur.name} />
+        ) : (
+          <>
+            <div className="m-gallery-sheen" />
+            <div className="placeholder-label" style={{ top: 14, left: 14 }}>[ foto de producto ]</div>
+          </>
+        )}
         <button
           type="button"
           className="heart-btn heart-btn--big"
@@ -25,17 +32,19 @@ export function ProductDetailView() {
         >
           <IconHeart filled={saved} width={20} height={20} style={{ color: saved ? 'var(--accent)' : 'inherit' }} />
         </button>
-        <div className="m-dots">
-          {[0, 1, 2, 3].map((i) => (
-            <button
-              key={i}
-              type="button"
-              className={`m-dot ${i === state.photo ? 'is-active' : ''}`}
-              onClick={() => actions.setPhoto(i)}
-              aria-label={`Foto ${i + 1}`}
-            />
-          ))}
-        </div>
+        {photos.length > 1 && (
+          <div className="m-dots">
+            {photos.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                className={`m-dot ${i === state.photo ? 'is-active' : ''}`}
+                onClick={() => actions.setPhoto(i)}
+                aria-label={`Foto ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="m-product-body">
@@ -108,7 +117,11 @@ export function ProductDetailView() {
             <div className="m-related-scroll">
               {related.map((r) => (
                 <div key={r.id} className="m-related-item" onClick={() => actions.openProduct(r.id)}>
-                  <div className="m-related-thumb placeholder-art" />
+                  {r.images && r.images[0] ? (
+                    <img className="m-related-thumb thumb-cover" src={r.images[0]} alt={r.name} loading="lazy" />
+                  ) : (
+                    <div className="m-related-thumb placeholder-art" />
+                  )}
                   <div className="m-related-name">{r.name}</div>
                   <div className="m-related-price">{cop(r.price)}</div>
                 </div>

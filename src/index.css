@@ -40,6 +40,27 @@ button, input {
 ::-webkit-scrollbar { display: none; }
 * { scrollbar-width: none; }
 
+.app-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--page-bg);
+}
+.app-loading-brand {
+  font-family: 'Audiowide', 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  letter-spacing: .12em;
+  color: var(--accent);
+  animation: sk-fade 1.1s ease-in-out infinite alternate;
+}
+
+/* Real product photos, layered inside a positioned .placeholder-art-style
+   container that also holds overlay UI (heart button, tags, dots). */
+.thumb-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Real product photo used standalone, replacing a plain placeholder div. */
+.thumb-cover { width: 100%; height: 100%; object-fit: cover; display: block; }
+
 .placeholder-art {
   position: relative;
   background: repeating-linear-gradient(135deg, var(--placeholder-a) 0 10px, var(--placeholder-b) 10px 20px);

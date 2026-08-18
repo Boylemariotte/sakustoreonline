@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { ALL_PRODUCTS, COLORS, findProduct, isExclusive, sizesFor } from '../data/products.js';
+import { ALL_PRODUCTS, COLORS, findProduct, isExclusive, loadCatalog, sizesFor } from '../data/products.js';
 import { cop, shippingFor, slugify } from '../utils/format.js';
 import { DEFAULT_THEME, rawTheme, readTheme } from './theme.js';
 import { exclusiveUntilMs, rawExclusives, readExclusiveOverrides } from './exclusives.js';
@@ -45,6 +45,8 @@ function initialState() {
     theme: readTheme(),
     exclusiveOverrides: readExclusiveOverrides(),
     now: Date.now(),
+    productsReady: false,
+    productsError: null,
   };
 }
 
@@ -58,6 +60,15 @@ export function StoreProvider({ children }) {
   const patch = useCallback((partial) => {
     setState((s) => ({ ...s, ...(typeof partial === 'function' ? partial(s) : partial) }));
   }, []);
+
+  // catalog — fetched once from Supabase (the admin panel is the only writer)
+  useEffect(() => {
+    let cancelled = false;
+    loadCatalog()
+      .then(() => { if (!cancelled) patch({ productsReady: true }); })
+      .catch((err) => { if (!cancelled) patch({ productsReady: true, productsError: err.message }); });
+    return () => { cancelled = true; };
+  }, [patch]);
 
   // persist bag / saved
   useEffect(() => {
@@ -220,6 +231,14 @@ export function StoreProvider({ children }) {
   }, [state.bag, state.saved]);
 
   const value = useMemo(() => ({ state, actions, derived }), [state, actions, derived]);
+
+  if (!state.productsReady) {
+    return (
+      <div className="app-loading">
+        <div className="app-loading-brand">SAKU</div>
+      </div>
+    );
+  }
 
   return <StoreCtx.Provider value={value}>{children}</StoreCtx.Provider>;
 }

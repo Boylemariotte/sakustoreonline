@@ -12,13 +12,18 @@ export function QuickView() {
   const saved = !!state.saved[dq.id];
   const ctaLabel = state.dSize ? `Añadir a la bolsa · ${cop(dq.price)}` : 'Elige una talla';
   const exclusiveUntil = isExclusive(dq) ? exclusiveUntilMs(dq, state.exclusiveOverrides) : null;
+  const cover = dq.images && dq.images[0];
 
   return (
     <div className="d-overlay d-overlay--center" role="dialog" aria-modal="true">
       <div className="d-overlay-backdrop" onClick={actions.closeQuickView} />
       <div className="d-modal">
-        <div className="d-modal-art placeholder-art">
-          <div className="placeholder-label" style={{ top: 16, left: 18 }}>[ foto de producto ]</div>
+        <div className={`d-modal-art ${cover ? '' : 'placeholder-art'}`}>
+          {cover ? (
+            <img className="thumb-img" src={cover} alt={dq.name} />
+          ) : (
+            <div className="placeholder-label" style={{ top: 16, left: 18 }}>[ foto de producto ]</div>
+          )}
         </div>
         <div className="d-modal-body">
           <div className="d-modal-head">

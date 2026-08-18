@@ -89,7 +89,7 @@
 
 .product-card { display: flex; flex-direction: column; gap: 9px; cursor: pointer; transition: transform .22s cubic-bezier(.22,.7,.3,1); animation: sk-card .45s cubic-bezier(.22,.7,.3,1) both; }
 .product-card:active { transform: scale(.975); }
-.product-card-thumb { height: 200px; border-radius: 20px; overflow: hidden; }
+.product-card-thumb { position: relative; height: 200px; border-radius: 20px; overflow: hidden; }
 .product-tag { position: absolute; bottom: 10px; left: 10px; padding: 5px 10px; border-radius: 99px; background: rgba(250,245,236,.94); font: 600 9.5px/1 'Plus Jakarta Sans', sans-serif; letter-spacing: .04em; color: var(--ink); }
 .product-card-info { display: flex; flex-direction: column; gap: 3px; }
 .product-card-cat { font: 500 10px/1 'Plus Jakarta Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: rgba(var(--ink-rgb),.38); }

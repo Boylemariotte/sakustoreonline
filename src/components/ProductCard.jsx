@@ -7,11 +7,16 @@ export function ProductCard({ product, saved, onOpen, onToggleSave, variant = 'g
   const exclusive = isExclusive(product);
   const untilMs = exclusive ? exclusiveUntilMs(product, state.exclusiveOverrides) : null;
   const countdown = untilMs ? compactCountdown(untilMs, state.now) : null;
+  const cover = product.images && product.images[0];
 
   return (
     <div className={`product-card product-card--${variant}`} onClick={onOpen}>
-      <div className="product-card-thumb placeholder-art">
-        <div className="placeholder-label" style={{ top: 10, left: 10 }}>[ prenda ]</div>
+      <div className={`product-card-thumb ${cover ? '' : 'placeholder-art'}`}>
+        {cover ? (
+          <img className="thumb-img" src={cover} alt={product.name} loading="lazy" />
+        ) : (
+          <div className="placeholder-label" style={{ top: 10, left: 10 }}>[ prenda ]</div>
+        )}
         <button
           type="button"
           className="heart-btn"
