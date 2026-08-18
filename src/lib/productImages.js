@@ -1,4 +1,5 @@
 import { supabase } from './supabaseClient.js';
+import { compressImage } from './imageCompression.js';
 
 const BUCKET = 'product-images';
 
@@ -29,12 +30,15 @@ export async function getProductImages(productId) {
 // admin login yet, so this will throw "row-level security" until one exists.
 export async function uploadProductImage(productId, file, position = 0) {
   requireSupabase();
-  const ext = file.name.includes('.') ? file.name.split('.').pop() : 'jpg';
+  const optimized = await compressImage(file);
+  const ext = optimized.name.includes('.') ? optimized.name.split('.').pop() : 'jpg';
+  // Random filename = content never changes at this path, so a 1-year cache
+  // is safe: browsers and any CDN in front of Storage stop re-fetching it.
   const path = `${productId}/${crypto.randomUUID()}.${ext}`;
 
   const { error: uploadError } = await supabase.storage
     .from(BUCKET)
-    .upload(path, file, { cacheControl: '3600', upsert: false });
+    .upload(path, optimized, { cacheControl: '31536000', upsert: false, contentType: optimized.type });
   if (uploadError) throw uploadError;
 
   const { data, error: insertError } = await supabase
