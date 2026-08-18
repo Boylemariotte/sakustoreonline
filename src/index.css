@@ -55,6 +55,17 @@ button, input {
   animation: sk-fade 1.1s ease-in-out infinite alternate;
 }
 
+.catalog-error-banner {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  background: #C4452F;
+  color: #FFF3EE;
+  font: 600 12.5px/1.4 'Plus Jakarta Sans', sans-serif;
+  text-align: center;
+  padding: 8px 16px;
+}
+
 /* Real product photos, layered inside a positioned .placeholder-art-style
    container that also holds overlay UI (heart button, tags, dots). */
 .thumb-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }

@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { ALL_PRODUCTS, COLORS, findProduct, isExclusive, loadCatalog, sizesFor } from '../data/products.js';
+import { isSupabaseConfigured } from '../lib/supabaseClient.js';
 import { cop, shippingFor, slugify } from '../utils/format.js';
 import { DEFAULT_THEME, rawTheme, readTheme } from './theme.js';
 import { exclusiveUntilMs, rawExclusives, readExclusiveOverrides } from './exclusives.js';
@@ -65,7 +66,13 @@ export function StoreProvider({ children }) {
   useEffect(() => {
     let cancelled = false;
     loadCatalog()
-      .then(() => { if (!cancelled) patch({ productsReady: true }); })
+      .then(() => {
+        if (cancelled) return;
+        patch({
+          productsReady: true,
+          productsError: isSupabaseConfigured ? null : 'Supabase no está configurado (faltan VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY).',
+        });
+      })
       .catch((err) => { if (!cancelled) patch({ productsReady: true, productsError: err.message }); });
     return () => { cancelled = true; };
   }, [patch]);
@@ -240,7 +247,14 @@ export function StoreProvider({ children }) {
     );
   }
 
-  return <StoreCtx.Provider value={value}>{children}</StoreCtx.Provider>;
+  return (
+    <StoreCtx.Provider value={value}>
+      {state.productsError && (
+        <div className="catalog-error-banner">Catálogo no disponible: {state.productsError}</div>
+      )}
+      {children}
+    </StoreCtx.Provider>
+  );
 }
 
 export function useStore() {
