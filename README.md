@@ -1,16 +1,33 @@
-# React + Vite
+# SAKU — tienda de ropa online
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+App de tienda (React + Vite) con catálogo, bolsa, favoritos y checkout por WhatsApp. Responsive: layout móvil por debajo de 900px, layout de escritorio por encima.
 
-Currently, two official plugins are available:
+## Desarrollo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+## Base de datos e imágenes (Supabase)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+El catálogo hoy vive en `src/data/products.js` (estático). Para que el futuro panel de administración pueda subir fotos de las prendas, el proyecto ya trae preparada la integración con [Supabase](https://supabase.com) (Postgres + Storage, gratis):
 
-## Expanding the Oxlint configuration
+1. Crea un proyecto en [app.supabase.com](https://app.supabase.com).
+2. Ve a **SQL Editor** → pega y ejecuta `supabase/schema.sql` (crea las tablas `products` / `product_images`, el bucket `product-images` y las políticas de seguridad).
+3. Ve a **Project Settings → API** y copia la **Project URL** y la **anon public key**.
+4. Copia `.env.example` a `.env.local` y pega ahí esos dos valores:
+   ```
+   VITE_SUPABASE_URL=https://xxxxx.supabase.co
+   VITE_SUPABASE_ANON_KEY=eyJhbGci...
+   ```
+5. Si despliegas en Vercel, agrega esas mismas dos variables en **Project Settings → Environment Variables**.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+La `anon key` es segura para exponer en el cliente — las políticas de seguridad (RLS) en `schema.sql` dejan lectura pública pero **solo permiten escribir (subir/borrar imágenes) a un usuario autenticado**, es decir, al admin una vez tenga login. Sin login de admin todavía, nadie (ni el sitio público) puede escribir en la base de datos, solo leer.
+
+Código relevante:
+- `src/lib/supabaseClient.js` — cliente de Supabase (no rompe la app si las variables de entorno no están configuradas).
+- `src/lib/productImages.js` — subir, listar y borrar fotos de un producto.
+- `supabase/schema.sql` — esquema de tablas + políticas de seguridad + bucket de imágenes.
+
+Esto es solo la base: la tienda pública sigue leyendo del catálogo estático hasta que exista el panel de admin con login para subir fotos reales.
